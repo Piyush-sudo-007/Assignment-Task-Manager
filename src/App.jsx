@@ -22,15 +22,12 @@ function App() {
       {selectPage === "Home" && (
         <div className="main">
           <Front setSelectPage={setSelectPage} setFilter={setFilter} />
+          {filter && <Filtered />}
+          <hr style={{ height: "5px", color: "white" }} />
           <TaskListView />
         </div>
       )}
-      {filter && (
-        <div className="main">
-          <Front setSelectPage={setSelectPage} setFilter={setFilter} />
-          <Filtered /> {/* Show the filtered tasks */}
-        </div>
-      )}
+
       {selectPage === "priority" && (
         <div className="main">
           <Front setSelectPage={setSelectPage} />

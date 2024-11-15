@@ -10,10 +10,6 @@ export const TaskList = createContext({
 });
 
 const taskListReducer = (currentTaskList, action) => {
-  if (!Array.isArray(currentTaskList)) {
-    currentTaskList = [];
-  }
-
   let newTaskList = [...currentTaskList];
 
   switch (action.type) {
@@ -60,21 +56,20 @@ const TaskListProvider = ({ children }) => {
   const initialTask = savedTasks ? JSON.parse(savedTasks) : [];
 
   const [taskList, dispatchTaskList] = useReducer(taskListReducer, initialTask);
-
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
   };
 
-  const filteredTaskList = Array.isArray(taskList)
+  const filteredTaskList = searchTerm.trim()
     ? taskList.filter((task) =>
         task.title.toUpperCase().includes(searchTerm.toUpperCase())
       )
     : [];
 
   const addTask = (title, body, dueDate, dueTime, priority) => {
-    console.log("Adding task:", { title, body, dueDate, dueTime, priority });
     dispatchTaskList({
       type: "ADD_TASK",
       payload: { title, body, dueDate, dueTime, priority },
@@ -82,7 +77,6 @@ const TaskListProvider = ({ children }) => {
   };
 
   const deleteTask = (taskId) => {
-    console.log("Deleting task with ID:", taskId);
     dispatchTaskList({
       type: "DELETE_TASK",
       payload: { taskId },
@@ -90,12 +84,6 @@ const TaskListProvider = ({ children }) => {
   };
 
   const updateTaskStatus = (taskId, completed) => {
-    console.log(
-      "Updating task status for ID:",
-      taskId,
-      "to completed:",
-      completed
-    );
     dispatchTaskList({
       type: "UPDATE_TASK_STATUS",
       payload: { taskId, completed },

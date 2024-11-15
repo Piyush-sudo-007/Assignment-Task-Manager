@@ -4,18 +4,6 @@ import { TaskList } from "../utility/Task-manager";
 const Front = ({ setSelectPage, setFilter }) => {
   const { handleSearchChange } = useContext(TaskList);
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleSearchChange(event);
-      setFilter(true);
-      if (event.target.value.trim()) {
-        setFilter(true);
-      } else {
-        setFilter(false);
-      }
-    }
-  };
-
   return (
     <div className="top-container">
       <div className="paste-button">
@@ -50,8 +38,8 @@ const Front = ({ setSelectPage, setFilter }) => {
             className="search-input"
             placeholder="Search..."
             onChange={(e) => {
-              handleKeyDown(e);
               handleSearchChange(e);
+              setFilter(true);
             }}
           />
           <div className="search-icon">
@@ -71,4 +59,5 @@ const Front = ({ setSelectPage, setFilter }) => {
     </div>
   );
 };
+
 export default Front;
